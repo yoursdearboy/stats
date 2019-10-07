@@ -8,8 +8,9 @@ theme_set(theme_bw(base_size = 14))
 ui <- fluidPage(
     includeCSS("styles.css"),
     fluidRow(
-        column(4, (
-            rHandsontableOutput('hot'))),
+        column(4,
+            p("Enter or paste (Ctrl+V) data in table below."),
+            rHandsontableOutput('hot', height = '90vh')),
         column(8,
             plotOutput('plot'),
             htmlOutput('table'))
@@ -17,12 +18,13 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-    initialData <- tibble(time = rep(NA_real_, 100),
-                          status = rep(NA_integer_, 100),
-                          group = rep(NA_character_, 100))
+    initialData <- tibble(time = rep(NA_real_, 1000),
+                          status = rep(NA_integer_, 1000),
+                          group = rep(NA_character_, 1000))
 
     output$hot <- renderRHandsontable({
-        rhandsontable(initialData, rowHeaders = NULL)
+        rhandsontable(initialData, rowHeaders = NULL) %>%
+            hot_cols(colWidths = c(70, 50, 100))
     })
 
     data <- reactive({
@@ -52,7 +54,7 @@ server <- function(input, output) {
                  x = "Time",
                  color = "Group",
                  fill = "Group")
-    })
+    }, res = 80)
 
     table <- function(data) {
         data %>%
@@ -70,7 +72,7 @@ server <- function(input, output) {
     }
 
     table_header <- function(group) {
-        tags$h3(sprintf("Group: %s", group))
+        h3(sprintf("Group: %s", group))
     }
 
     table_group <- function(group, data) {
