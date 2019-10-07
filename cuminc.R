@@ -9,9 +9,20 @@ ui <- fluidPage(
     includeCSS("styles.css"),
     fluidRow(
         column(4,
-            p("Enter or paste (Ctrl+V) data in table below."),
+            div(class = 'toolbar',
+                p("Enter or paste (",
+                  HTML("<kbd><kbd>Ctrl</kbd>+<kbd>V</kbd></kbd>"),
+                  ") data in table below.",
+                  class = 'toolbar-text')
+            ),
             rHandsontableOutput('hot', height = '90vh')),
         column(8,
+            div(class = 'toolbar',
+                div(numericInput('confint_level', "Confidence level", .95, min = .01, max = .99, step = .01, width = 130)),
+                div(div(class = 'form-group',
+                        tags$label("Display CI?"),
+                        checkboxInput('display_confint', "Yes", T)))
+            ),
             plotOutput('plot'),
             htmlOutput('table'))
     )

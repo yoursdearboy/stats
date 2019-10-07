@@ -1,0 +1,12 @@
+.toolbar {
+  display: flex;
+  height: 74px;
+}
+
+.toolbar > div {
+  margin: 0 10px;
+}
+
+.toolbar-text {
+  align-self: center;
+}
