@@ -6,6 +6,7 @@ library(survival)
 theme_set(theme_bw(base_size = 14))
 
 ui <- fluidPage(
+    includeCSS("styles.css"),
     fluidRow(
         column(4, (
             rHandsontableOutput('hot'))),
