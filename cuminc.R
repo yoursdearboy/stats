@@ -10,10 +10,10 @@ ui <- fluidPage(
     fluidRow(
         column(4,
             div(class = 'toolbar',
-                p("Enter or paste (",
-                  HTML("<kbd><kbd>Ctrl</kbd>+<kbd>V</kbd></kbd>"),
-                  ") data in table below.",
-                  class = 'toolbar-text')
+                div(class = 'toolbar-text',
+                    p("Enter data below or paste using",
+                      HTML("<kbd><kbd>Ctrl</kbd>+<kbd>V</kbd></kbd>")),
+                    p("Status is 0 for censored, 1 for event and 2 for competing."))
             ),
             rHandsontableOutput('hot', height = '90vh')),
         column(8,
@@ -55,12 +55,14 @@ server <- function(input, output) {
 
     fit <- reactive({
         if (nrow(fit_data()) < 1) return()
-        survfit(Surv(time, status, type = 'mstate') ~ group, fit_data())
+        survfit(Surv(time, status, type = 'mstate') ~ group,
+                fit_data(),
+                conf.int = input$confint_level)
     })
 
     output$plot <- renderPlot({
         if (is.null(fit())) return()
-        autoplot(fit()[,1], conf.int.alpha = .2) +
+        autoplot(fit()[,1], conf.int = input$display_confint, conf.int.alpha = .2) +
             labs(y = "Cumulative Incidence",
                  x = "Time",
                  color = "Group",
