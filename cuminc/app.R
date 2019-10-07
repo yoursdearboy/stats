@@ -70,7 +70,7 @@ server <- function(input, output) {
     output$plot <- renderPlot({
         if (is.null(fit())) return()
         autoplot(fit()[,1], conf.int = input$display_confint, conf.int.alpha = .2) +
-            labs(y = "Cumulative Incidence",
+            labs(y = "Probability",
                  x = "Time",
                  color = "Group",
                  fill = "Group")
