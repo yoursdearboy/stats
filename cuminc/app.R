@@ -1,12 +1,14 @@
 library(shiny)
 library(rhandsontable)
+library(tidyverse)
 library(ggfortify)
 library(survival)
 
-theme_set(theme_bw(base_size = 14))
+source('../misc.R')
+source('../setup.R')
 
 ui <- fluidPage(
-    includeCSS("styles.css"),
+    includeCSS('../styles.css'),
     fluidRow(
         column(4,
             div(class = 'toolbar',
@@ -15,7 +17,7 @@ ui <- fluidPage(
                       HTML("<kbd><kbd>Ctrl</kbd>+<kbd>V</kbd></kbd>")),
                     p("Status is 0 for censored, 1 for event and 2 for competing."))
             ),
-            rHandsontableOutput('hot', height = '90vh')),
+            rHandsontableOutput('hot', height = '89vh')),
         column(8,
             div(class = 'toolbar',
                 div(numericInput('confint_level', "Confidence level", .95, min = .01, max = .99, step = .01, width = 130)),
