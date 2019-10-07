@@ -10,7 +10,8 @@ ui <- fluidPage(
         column(4, (
             rHandsontableOutput('hot'))),
         column(8,
-            plotOutput('plot'))
+            plotOutput('plot'),
+            htmlOutput('table'))
     )
 )
 
@@ -50,6 +51,45 @@ server <- function(input, output) {
                  x = "Time",
                  color = "Group",
                  fill = "Group")
+    })
+
+    table <- function(data) {
+        data %>%
+            select(time, pstate, std.err, lower, upper) %>%
+            mutate(time = format(time, digits = 2)) %>%
+            mutate_at(vars(pstate, std.err, lower, upper),
+                      ~ format(round(., 3), nsmall = 3)) %>%
+            rename(`Time` = time,
+                   `CumInc` = pstate,
+                   `Std. Error` = std.err,
+                   `Lower CI` = lower,
+                   `Upper CI` = upper) %>%
+            knitr::kable(format = 'html') %>%
+            kableExtra::kable_styling(full_width = F, position = 'left', bootstrap_options = 'condensed')
+    }
+
+    table_header <- function(group) {
+        tags$h3(sprintf("Group: %s", group))
+    }
+
+    table_group <- function(group, data) {
+        paste(table_header(group),
+              table(data),
+              collapse = '\n')
+    }
+
+    output$table <- renderUI({
+        if (is.null(fit())) return()
+        result <- fortify(fit()[,1])
+        if ('strata' %nin% colnames(result)) {
+            result <- mutate(result, strata = "All")
+        }
+        result <- result %>%
+            group_by(strata) %>%
+            nest() %>%
+            mutate(table = pmap_chr(list(strata, data), table_group))
+        result <- paste(result$table, collapse = '\n')
+        HTML(result)
     })
 }
 
