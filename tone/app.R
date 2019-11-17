@@ -10,7 +10,7 @@ APP_NAME <- "T-test One Sample"
 ui <- fluidPage(
   includeCSS('../styles.css'),
   tags$head(
-    tags$title(page_title(APP_NAME))
+    tags$title(APP_NAME)
   ),
   fluidRow(
     column(4,
