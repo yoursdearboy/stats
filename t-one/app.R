@@ -5,13 +5,8 @@ library(tidyverse)
 source('../misc.R')
 source('../setup.R')
 
-APP_NAME <- "T-test One Sample"
-
 ui <- fluidPage(
   includeCSS('../styles.css'),
-  tags$head(
-    tags$title(APP_NAME)
-  ),
   fluidRow(
     column(4,
            div(class = 'toolbar',

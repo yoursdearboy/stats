@@ -1,0 +1,4 @@
+title: t-test (one sample)
+description: >
+  Compare mean of one sample with reference.
+  Can be used to test whether mean differs from 0.
