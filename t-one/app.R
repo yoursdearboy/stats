@@ -10,11 +10,10 @@ ui <- fluidPage(
   fluidRow(
     column(4,
            div(class = 'toolbar',
-               div(class = 'toolbar-text',
-                   p("Enter data below or paste using",
+               div(p("Enter data below or paste using",
                      HTML("<kbd><kbd>Ctrl</kbd>+<kbd>V</kbd></kbd>")))
            ),
-           rHandsontableOutput('hot', height = '89vh')),
+           rHandsontableOutput('hot', height = '88vh')),
     column(8, htmlOutput('result'))
   )
 )

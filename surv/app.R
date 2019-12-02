@@ -12,12 +12,10 @@ ui <- fluidPage(
     fluidRow(
         column(4,
             div(class = 'toolbar',
-                div(class = 'toolbar-text',
-                    p("Enter data below or paste using",
-                      HTML("<kbd><kbd>Ctrl</kbd>+<kbd>V</kbd></kbd>")),
-                    p("Status is 0 for censored, 1 for event."))
-            ),
-            rHandsontableOutput('hot', height = '89vh')),
+                p("Enter data below or paste using",
+                  HTML("<kbd><kbd>Ctrl</kbd>+<kbd>V</kbd></kbd>")),
+                p("Status is 0 for censored, 1 for event.")),
+            rHandsontableOutput('hot', height="88vh")),
         column(8,
             div(class = 'toolbar',
                 div(numericInput('confint_level', "Confidence level", .95, min = .01, max = .99, step = .01, width = 130)),
